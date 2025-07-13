@@ -2,15 +2,18 @@
 
 import subprocess
 
+import os
+
+os.environ["HTTP_PROXY"] = "http://127.0.0.1:7890"
+os.environ["HTTPS_PROXY"] = "http://127.0.0.1:7890" 
+os.environ["NO_PROXY"] = "localhost,127.0.0.1"
+
+
+
 prompt = """
-
-GIT checkout a NEW branch.
-
-CREATE ./cc_todo/todo.ts: a zero library CLI todo app with basic CRUD. 
-
-THEN GIT stage, commit and SWITCH back to main.
-
+修改hello1.py，让它输出"Hello, World 123"
 """
+
 
 command = ["claude", "-p", prompt, "--allowedTools", "Edit", "Bash", "Write"]
 

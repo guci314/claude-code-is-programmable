@@ -1,3 +1,50 @@
+# Project Prime Data Export
+
+*Generated from project:prime command on 2025-06-15*
+
+## Project File Structure
+
+```
+./.aider.chat.history.md
+./aider_is_programmable_1.sh
+./aider_is_programmable_2.js
+./aider_is_programmable_2.py
+./aider_is_programmable_3.py
+./ai_docs/anthropic_web_search_tool.md
+./ai_docs/claude_code_best_practices.md
+./ai_docs/claude_code_tech.md
+./ai_docs/claude-code-tutorials.md
+./ai_docs/fc_openai_agents.md
+./ai_docs/uv-single-file-scripts.md
+./anthropic_search.py
+./bonus/claude_code_inside_openai_agent_sdk_4_bonus.py
+./bonus/starter_notion_agent.py
+./claude_code_is_programmable_1.sh
+./claude_code_is_programmable_2.js
+./claude_code_is_programmable_2.py
+./claude_code_is_programmable_3.py
+./claude_code_is_programmable_4.py
+./claude_code_tutorial.md
+./.claude/commands/prime.md
+./CLAUDE.md
+./.claude/settings.local.json
+./claude_testing_v1.py
+./hello1.py
+./hello.py
+./.mcp.sample.json
+./.pytest_cache/README.md
+./README.md
+./repomap.json
+./repository_summary.md
+./reset.sh
+./test_hello.py
+./tests/test_claude_testing_v1.py
+./voice_to_claude_code.py
+```
+
+## README.md Content
+
+```markdown
 # Claude Code 可编程项目
 
 本仓库展示如何以编程方式使用 Claude Code，提供多种编程语言的示例。观看[此视频](https://youtu.be/2TIXl2rlA6Q)了解这对下一代工程的重要性。查看[语音转Claude Code](https://youtu.be/LvkZuY7rJOM)视频了解如何使用`voice_to_claude_code.py`脚本。
@@ -237,4 +284,204 @@ The script produces:
 - Domain filtering doesn't need https:// prefixes and automatically includes subdomains
 
 Built with ❤️ by [IndyDevDan](https://www.youtube.com/@indydevdan) with [Claude Code](https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview), and [Principled AI Coding](https://agenticengineer.com/principled-ai-coding)
+```
 
+## Aider Scripts Analysis
+
+### aider_is_programmable_2.py
+**Purpose**: Creates TypeScript todo app with git workflow
+**Key Features**:
+- Creates new git branch `feature-todo-app`
+- Uses Aider to generate TypeScript CLI todo app with CRUD operations
+- Automatically commits changes and returns to main branch
+- Error handling with branch recovery
+
+```python
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.9"
+# dependencies = []
+# ///
+
+import subprocess
+import os
+
+# Create directory if it doesn't exist
+todo_dir = "./cc_todo"
+os.makedirs(todo_dir, exist_ok=True)
+todo_file = f"{todo_dir}/todo.ts"
+
+# Generate a random branch name
+branch_name = f"feature-todo-app"
+
+try:
+    # 1. Create and checkout a new branch
+    print(f"Creating and checking out new branch: {branch_name}")
+    subprocess.run(["git", "checkout", "-b", branch_name], check=True)
+
+    # 2. Run aider directly with the todo task
+    print("Running aider to create todo app...")
+    aider_cmd = [
+        "aider",
+        "--no-git",  # We'll handle git ourselves
+        todo_file,
+        "--message",
+        "CREATE ./cc_todo/todo.ts: a zero library CLI todo app with basic CRUD.",
+    ]
+    subprocess.run(aider_cmd, check=True)
+
+    # 3. Git operations - stage and commit
+    print("Staging and committing changes...")
+    subprocess.run(["git", "add", "."], check=True)
+    subprocess.run(
+        ["git", "commit", "-m", "Add TypeScript todo app with CRUD functionality"],
+        check=True,
+    )
+
+    # 4. Switch back to main branch
+    print("Switching back to main branch...")
+    subprocess.run(["git", "checkout", "main"], check=True)
+
+    print(f"Task completed. Changes committed to branch: {branch_name}")
+
+except subprocess.CalledProcessError as e:
+    print(f"Command failed: {e}")
+except Exception as e:
+    print(f"Error: {e}")
+    # Try to return to main branch if something went wrong
+    try:
+        subprocess.run(["git", "checkout", "main"], check=True)
+    except:
+        pass
+```
+
+### aider_is_programmable_3.py
+**Purpose**: Creates hello world program using DeepSeek model
+**Key Features**:
+- Uses DeepSeek AI model instead of default
+- Loads API key from .env file
+- No git branch switching - works on current branch
+- Displays created file content
+
+```python
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.9"
+# dependencies = [
+#   "python-dotenv"
+# ]
+# ///
+
+import subprocess
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+# Define the target file
+hello_file = "./hello1.py"
+
+try:
+    # Run aider directly to create hello world program with DeepSeek model
+    print("Running aider with DeepSeek model to create hello world program...")
+    aider_cmd = [
+        "aider",
+        "--no-git",  # We'll handle git ourselves if needed
+        "--model", "deepseek/deepseek-chat",  # Use DeepSeek model
+        hello_file,
+        "--message",
+        "CREATE ./hello1.py: a simple hello world program in Python with a main function.",
+    ]
+    
+    # Set up environment with DeepSeek API key
+    env = os.environ.copy()
+    deepseek_api_key = os.getenv("DEEPSEEK_API_KEY")
+    if deepseek_api_key:
+        env["DEEPSEEK_API_KEY"] = deepseek_api_key
+        print("Using DeepSeek API key from .env file")
+    else:
+        print("Warning: DEEPSEEK_API_KEY not found in .env file")
+    
+    subprocess.run(aider_cmd, env=env, check=True)
+
+    print(f"Task completed. Hello world program created in: {hello_file}")
+
+    # Optionally display the created file
+    if os.path.exists(hello_file):
+        print(f"\nContent of {hello_file}:")
+        with open(hello_file, 'r') as f:
+            print(f.read())
+
+except subprocess.CalledProcessError as e:
+    print(f"Aider command failed: {e}")
+except Exception as e:
+    print(f"Error: {e}")
+```
+
+## Claude Code Scripts Analysis
+
+### claude_code_is_programmable_2.py
+**Purpose**: Simple Claude Code invocation with proxy settings
+**Key Features**:
+- HTTP proxy configuration
+- Basic prompt execution
+- Tool restrictions (Edit, Bash, Write)
+
+```python
+#!/usr/bin/env -S uv run --script
+
+import subprocess
+
+import os
+
+os.environ["HTTP_PROXY"] = "http://127.0.0.1:7890"
+os.environ["HTTPS_PROXY"] = "http://127.0.0.1:7890" 
+os.environ["NO_PROXY"] = "localhost,127.0.0.1"
+
+prompt = """
+修改hello1.py，让它输出"Hello, World 123"
+"""
+
+command = ["claude", "-p", prompt, "--allowedTools", "Edit", "Bash", "Write"]
+
+# Capture Claude's output so we can display it
+process = subprocess.run(
+    command,
+    check=True,
+    capture_output=True,
+    text=True,
+)
+
+print(f"Claude process exited with output: {process.stdout}")
+```
+
+### claude_code_is_programmable_3.py
+**Purpose**: Advanced Notion API integration with Claude Code
+**Key Features**:
+- Rich console output with colors and formatting
+- Streaming JSON output processing
+- Comprehensive Notion API tool access
+- Error handling and status reporting
+
+**Architecture**: Complex agent that finds Notion pages, extracts todos, implements code changes, and marks todos as complete.
+
+### claude_code_is_programmable_4.py
+**Purpose**: Demonstrates multiple output formats
+**Key Features**:
+- Command-line argument parsing
+- Support for text, json, and stream-json output formats
+- Format-specific output processing functions
+
+## Summary
+
+This project serves as a comprehensive showcase of programmable AI coding workflows, demonstrating:
+
+1. **Multi-language support**: Python, JavaScript, Shell scripts
+2. **Multiple AI models**: Claude (various versions), DeepSeek
+3. **Different output formats**: Text, JSON, streaming JSON
+4. **External integrations**: Notion API, voice interaction, web search
+5. **Security patterns**: Tool restriction and permission management
+6. **Development workflows**: Git integration, testing, and automation
+
+The repository effectively demonstrates the evolution from simple AI tool usage to complex automated workflows that can manage entire development lifecycles programmatically.

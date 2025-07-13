@@ -556,28 +556,52 @@ async def main():
     # Create assistant instance with conversation ID and initial prompt
     assistant = ClaudeCodeAssistant(conversation_id=args.id, initial_prompt=args.prompt)
 
-    # Show some helpful information about the conversation
+    # Show project summary and conversation info
+    project_summary = """
+# Claude Code 语音助手项目总结
+
+## 核心功能
+1. **语音交互系统** - 通过语音指令操作Claude Code
+2. **对话历史管理** - 自动保存和恢复对话
+3. **响应压缩优化** - 使用GPT优化长响应为简洁语音
+4. **实时语音识别** - 使用RealtimeSTT库实现低延迟识别
+
+## 技术栈
+- Python 3.10+
+- RealtimeSTT (语音识别)
+- OpenAI TTS (语音合成)
+- Claude Code (AI编程代理)
+
+## 使用说明
+- 包含触发词启动操作: claude, cloud, sonnet, sonny
+- 对话自动保存到: output/<会话ID>.yml
+- 按Ctrl+C退出程序
+"""
+
+    console.print(Panel(Markdown(project_summary), title="项目概览", width=120))
+
+    # Show conversation information
     if args.id:
         if assistant.conversation_file.exists():
             log.info(f"Resuming existing conversation with ID: {args.id}")
             console.print(
-                f"[bold green]Resuming conversation {args.id} with {len(assistant.conversation_history)} turns[/bold green]"
+                f"[bold green]恢复对话 {args.id} (历史记录: {len(assistant.conversation_history)}条)[/bold green]"
             )
         else:
             log.info(f"Starting new conversation with user-provided ID: {args.id}")
             console.print(
-                f"[bold blue]Starting new conversation with ID: {args.id}[/bold blue]"
+                f"[bold blue]新建对话 (用户指定ID): {args.id}[/bold blue]"
             )
     else:
         log.info(
             f"Starting new conversation with auto-generated ID: {assistant.conversation_id}"
         )
         console.print(
-            f"[bold blue]Starting new conversation with auto-generated ID: {assistant.conversation_id}[/bold blue]"
+            f"[bold blue]新建对话 (自动生成ID): {assistant.conversation_id}[/bold blue]"
         )
 
     log.info(f"Conversation will be saved to: {assistant.conversation_file}")
-    console.print(f"[bold]Conversation file: {assistant.conversation_file}[/bold]")
+    console.print(f"[bold]对话保存路径: {assistant.conversation_file}[/bold]")
 
     # Process initial prompt if provided
     if args.prompt:

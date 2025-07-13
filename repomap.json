@@ -1,0 +1,74 @@
+{
+  "project_name": "claude-code-is-programmable",
+  "files": [
+    {
+      "path": "voice_to_claude_code.py",
+      "description": "语音交互的Claude Code助手，支持实时语音识别和TTS响应",
+      "type": "main",
+      "dependencies": ["RealtimeSTT", "openai", "python-dotenv", "rich"]
+    },
+    {
+      "path": "claude_code_is_programmable_2.py",
+      "description": "简单的Claude Code脚本示例",
+      "type": "example"
+    },
+    {
+      "path": "claude_code_is_programmable_3.py",
+      "description": "集成Notion API的Claude Code脚本",
+      "type": "integration",
+      "integrations": ["Notion API"]
+    },
+    {
+      "path": "claude_code_is_programmable_4.py",
+      "description": "支持多种输出格式的Claude Code脚本",
+      "type": "utility",
+      "features": ["text", "json", "stream-json输出"]
+    },
+    {
+      "path": "hello.py",
+      "description": "简单的Hello World示例脚本",
+      "type": "example"
+    },
+    {
+      "path": "test_hello.py",
+      "description": "hello.py的单元测试",
+      "type": "test"
+    },
+    {
+      "path": "claude_testing_v1.py",
+      "description": "Claude CLI测试工具",
+      "type": "testing"
+    },
+    {
+      "path": "anthropic_search.py",
+      "description": "Anthropic Claude网页搜索工具",
+      "type": "utility",
+      "integrations": ["Anthropic API"]
+    },
+    {
+      "path": "tests/test_claude_testing_v1.py",
+      "description": "claude_testing_v1.py的测试",
+      "type": "test"
+    },
+    {
+      "path": "bonus/claude_code_inside_openai_agent_sdk_4_bonus.py",
+      "description": "在OpenAI Agent SDK中集成Claude Code",
+      "type": "integration",
+      "integrations": ["OpenAI Agent SDK"]
+    },
+    {
+      "path": "bonus/starter_notion_agent.py",
+      "description": "Notion API代理启动脚本",
+      "type": "integration",
+      "integrations": ["Notion API"]
+    }
+  ],
+  "structure": {
+    "main_scripts": 4,
+    "test_files": 2,
+    "integration_scripts": 3,
+    "example_scripts": 2,
+    "utility_scripts": 2
+  },
+  "last_updated": "2025-06-12"
+}
